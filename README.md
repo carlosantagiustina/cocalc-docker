@@ -1,4 +1,7 @@
-# CoCalc Docker image
+# CoCalc Docker image with additional packages and tools for Odycceus Summer School
+
+modified version mainainer: C. R. M. A. Santagiustina 
+
 
 [![](https://images.microbadger.com/badges/image/sagemathinc/cocalc.svg)](https://microbadger.com/images/sagemathinc/cocalc "Size and number of layers")
 
@@ -19,9 +22,10 @@ This is a free open-source  multiuser CoCalc server that you can _**very easily*
 ## Instructions
 
 Install Docker on your computer (e.g., `apt-get install docker.io` on Ubuntu).   Make sure you have at least **15GB disk space free**, then type:
-
-    docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 sagemathinc/cocalc
-
+   ```
+    docker build carlosantagiustina/cocalc:latest  https://github.com/carlosantagiustina/cocalc-docker.git
+    docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 carlosantagiustina/cocalc
+    ```
 wait a few minutes for the image to pull, decompress and the container to start, then visit https://localhost.  It is expected that you'll see a "Your connection is not private" warning, since you haven't set up a security certificate.  Click "Show advanced" and "Proceed to localhost (unsafe)".
 
 NOTES:
@@ -30,11 +34,12 @@ NOTES:
  - CoCalc will NOT work over insecure port 80.  A previous version of these direction suggested using -p 80:80 above and visiting http://localhost, [which will not work](https://github.com/sagemathinc/cocalc/issues/2000).
  - If you are using Microsoft Windows, instead make a docker volume and use that for storage (I'm not sure how easy it is though then to backup files):
     ```
+    docker build carlosantagiustina/cocalc:latest  https://github.com/carlosantagiustina/cocalc-docker.git
     docker volume create cocalc-volume
-    docker run --name=cocalc -d -v cocalc-volume:/projects -p 443:443 sagemathinc/cocalc
+    docker run --name=cocalc -d -v cocalc-volume:/projects -p 443:443 carlosantagiustina/cocalc
     ```
 
-The above command will first download the image, then start CoCalc, storing your data in the directory `~/cocalc` on your computer. If you want to store your worksheets and edit history elsewhere, change `~/cocalc` to something else.  Once your local CoCalc is running, open your web browser to https://localhost.
+The above command will first build the image, create an empty volume, then start CoCalc, storing your data in the directory `~/cocalc` on the empty volume just created in your computer. If you want to store your worksheets and edit history elsewhere, change `~/cocalc` to something else.  Once your local CoCalc is running, open your web browser to https://localhost.
 
 The docker container is called `cocalc` and you can refer to the container and use commands like:
 
@@ -74,7 +79,7 @@ For **enhanced security**, make the container only listen on localhost:
 ```
 docker stop cocalc
 docker rm cocalc
-docker run --name=cocalc -d -v ~/cocalc:/projects -p  127.0.0.1:443:443 sagemathinc/cocalc
+docker run --name=cocalc -d -v ~/cocalc:/projects -p  127.0.0.1:443:443 carlosantagiustina/cocalc
 ```
 
 Then the **only way** to access your CoCalc server is to type the following on your local computer:
@@ -87,13 +92,13 @@ and open your web browser to https://localhost:8080
 
 Instead of doing:
 ```
-docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 sagemathinc/cocalc
+docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 carlosantagiustina/cocalc
 ```
 
 do this:
 
 ```
-docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 -p <your ip address>:2222:22  sagemathinc/cocalc
+docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 -p <your ip address>:2222:22  carlosantagiustina/cocalc
 ```
 
 Then you can do:
@@ -123,7 +128,7 @@ chmod 600 .ssh/authorized_keys
 Get a bash shell insider the container, then connect to the database and make a user (me!) an admin as follows:
 ```
 $ docker exec -it cocalc bash
-root@931045eda11f:/# make-user-admin wstein@gmail.com
+root@931045eda11f:/# make-user-admin carlosantagiustina@gmail.com
 ```
 Obviously, you should really make the user you created (with its email address) an admin, not me!
 Refresh your browser, and then you should see an extra admin panel in the lower right of accounts settings; you can also open any project by directly visiting its URL.
@@ -190,56 +195,10 @@ $ setenforce 1
 
 If you started the container as above, there will be a directory ~/cocalc on your host computer that contains **all** data and files related to your projects and users -- go ahead and verify that it is there before upgrading. It might look like this:
 ```
-Williams-MacBook-Pro:~ wstein$ ls cocalc
+carlosantagiustina:~ carlosantagiustina$ ls cocalc
 be889c14-dc96-4538-989b-4117ffe84148	postgres    conf
 ```
 
 The directory `postgres` contains the database files, so all projects, users, file editing history, etc. The directory conf contains some secrets and log files. There will also be one directory (like `be889c14-dc96-4538-989b-4117ffe84148`) for each project that is created.
 
-## Upgrade
 
-
-To get the newest image, do this (which will take some time):
-```
-docker pull  sagemathinc/cocalc
-```
-
-Once done, you can delete and recreate your CoCalc container: (This will not delete any of your project or user data, which you confirmed above is in ~/cocalc.)
-
-    docker stop cocalc
-    docker rm cocalc
-    docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 sagemathinc/cocalc
-
-Now visit https://localhost to see your upgraded server.
-
-
-## Build
-
-This section is for CoCalc developers.
-
-Build the image:
-```
-make build-full   # or make build
-```
-
-Run the image (to test):
-
-```
-make run
-```
-
-How I pushed this:
-```
-docker tag smc:latest sagemathinc/cocalc
-docker login --username=sagemathinc
-docker push  sagemathinc/cocalc
-```
-
-Also to build at a specific commit:
-```
-docker build --build-arg commit=121b564a6b08942849372b9ffdcdddd7194b3e89 -t smc .
-```
-
-## Links
-
-* [CuCalc = CUDA + CoCalc Docker container](https://github.com/ktaletsk/CuCalc)
