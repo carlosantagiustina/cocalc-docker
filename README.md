@@ -1,6 +1,6 @@
 # CoCalc Docker image for Odycceus Summer School
 
-modified version maintainer: C. R. M. A. Santagiustina 
+modified container version maintainer: C. R. M. A. Santagiustina 
 
 
 [![](https://images.microbadger.com/badges/image/sagemathinc/cocalc.svg)](https://microbadger.com/images/sagemathinc/cocalc "Size and number of layers")
@@ -23,7 +23,8 @@ This is a free open-source  multiuser CoCalc server that you can _**very easily*
 
 Install Docker on your computer (e.g., `apt-get install docker.io` on Ubuntu).   Make sure you have at least **15GB disk space free**, then type:
 
-    docker build carlosantagiustina/cocalc:latest  https://github.com/carlosantagiustina/cocalc-docker.git
+    #Tested on ubuntu 18.04 (if using other OS clone directly the latest prebuilt version from dockerhub: https://hub.docker.com/r/carlosantagiustina/cocalc )
+    docker build carlosantagiustina/cocalc:latest  https://github.com/carlosantagiustina/cocalc-docker.git 
     docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 carlosantagiustina/cocalc
 
 wait a few minutes for the image to pull, decompress and the container to start, then visit https://localhost.  It is expected that you'll see a "Your connection is not private" warning, since you haven't set up a security certificate.  Click "Show advanced" and "Proceed to localhost (unsafe)".
