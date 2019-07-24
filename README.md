@@ -1,6 +1,6 @@
 # CoCalc Docker image with additional packages and tools for Odycceus Summer School
 
-modified version mainainer: C. R. M. A. Santagiustina 
+modified version maintainer: C. R. M. A. Santagiustina 
 
 
 [![](https://images.microbadger.com/badges/image/sagemathinc/cocalc.svg)](https://microbadger.com/images/sagemathinc/cocalc "Size and number of layers")
