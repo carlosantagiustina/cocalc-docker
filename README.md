@@ -1,4 +1,4 @@
-# CoCalc Docker image with additional packages and tools for Odycceus Summer School
+# CoCalc Docker image for Odycceus Summer School
 
 modified version maintainer: C. R. M. A. Santagiustina 
 
@@ -11,8 +11,8 @@ This is a free open-source  multiuser CoCalc server that you can _**very easily*
 
 
 **LICENSE AND SUPPORT:**
-  - Much of this code is licensed [under the AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License). If you would instead like a more company-friendly MIT license instead (or you just want to support CoCalc), please contact [help@cocalc.com](help@cocalc.com), and we will sell you a single-instance 1-year license for $799.  This also includes some support, though with no guarantees (that costs more).
-  - Email [the mailing list](https://groups.google.com/forum/?fromgroups#!forum/cocalc) for community support.
+  - Much of this code is licensed [under the AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License). If you would instead like a more company-friendly MIT license instead (or you just want to support CoCalc), please contact [help@cocalc.com]
+  - Email [the mailing list](https://groups.google.com/forum/?fromgroups#!forum/cocalc) for Cocalc community support.
 
 **SECURITY STATUS:**
   - This is _**not blatantly insecure**_ from outside attack: the database has a long random password, user accounts are separate, encrypted SSL communication is used by default, etc.
