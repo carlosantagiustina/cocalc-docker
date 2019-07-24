@@ -22,10 +22,10 @@ This is a free open-source  multiuser CoCalc server that you can _**very easily*
 ## Instructions
 
 Install Docker on your computer (e.g., `apt-get install docker.io` on Ubuntu).   Make sure you have at least **15GB disk space free**, then type:
-   ```
+
     docker build carlosantagiustina/cocalc:latest  https://github.com/carlosantagiustina/cocalc-docker.git
     docker run --name=cocalc -d -v ~/cocalc:/projects -p 443:443 carlosantagiustina/cocalc
-    ```
+
 wait a few minutes for the image to pull, decompress and the container to start, then visit https://localhost.  It is expected that you'll see a "Your connection is not private" warning, since you haven't set up a security certificate.  Click "Show advanced" and "Proceed to localhost (unsafe)".
 
 NOTES:
