@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 # It does include **cocalc itself** which is AGPL licensed.  However, one may purchase
 # an MIT-style license for cocalc if you want from SageMath, Inc.
 
-MAINTAINER William Stein <wstein@sagemath.com>
+MAINTAINER Carlo Santagiustina <carlosantagiustina@gmail.com>
 
 USER root
 
